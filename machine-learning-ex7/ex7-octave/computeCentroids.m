@@ -26,12 +26,13 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-
-
-
-
-
-
+for i = 1:K
+  x_store = [];
+  for j = find(idx == i)
+    x_store = [x_store, X(j, :)];
+  endfor
+  centroids(i, :) = mean(x_store);
+endfor
 
 % =============================================================
 
