@@ -60,7 +60,6 @@ Theta2_grad = zeros(size(Theta2));
 %               backpropagation. That is, you can compute the gradients for
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
-%
 
 %FORWARD PROPOGATION
 a1 = [ones(m, 1) X];
@@ -94,7 +93,6 @@ Theta2_grad = Theta2_grad + (1/m) * (d3' * a2) + (lambda/m) * Theta2;
 Theta1_grad = Theta1_grad + (1/m) * (d2' * a1) + (lambda/m) * Theta1;
 Theta2_grad(:, 1) = Theta2_grad(:, 1) - (lambda/m) * Theta2(:, 1);
 Theta1_grad(:, 1) = Theta1_grad(:, 1) - (lambda/m) * Theta1(:, 1);
-
 
 % -------------------------------------------------------------
 

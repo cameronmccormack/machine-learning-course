@@ -10,6 +10,8 @@ num_labels = size(Theta2, 1);
 % You need to return the following variables correctly 
 p = zeros(size(X, 1), 1);
 
+% calculate each layer's unit values, "dummy" contains maximum value in
+% h2 whereas "p" contains position of this maximum (this is the useful part)
 h1 = sigmoid([ones(m, 1) X] * Theta1');
 h2 = sigmoid([ones(m, 1) h1] * Theta2');
 [dummy, p] = max(h2, [], 2);
