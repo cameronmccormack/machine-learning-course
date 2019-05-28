@@ -19,7 +19,6 @@ idx = zeros(size(X,1), 1);
 %               range 1..K
 %
 % Note: You can use a for-loop over the examples to compute this.
-%
 
 m = size(X,1);
 
@@ -28,7 +27,6 @@ for i = 1:m
   [min_cost, index] = min(costs);
   idx(i) = index;
 endfor
-
 
 % =============================================================
 

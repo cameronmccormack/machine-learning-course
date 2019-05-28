@@ -11,15 +11,9 @@ centroids = zeros(K, size(X, 2));
 % ====================== YOUR CODE HERE ======================
 % Instructions: You should set centroids to randomly chosen examples from
 %               the dataset X
-%
 
 random_idx = randperm(size(X, 1));
 centroids = X(random_idx(1:K), :);
-
-
-
-
-
 
 % =============================================================
 
