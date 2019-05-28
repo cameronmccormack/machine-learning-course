@@ -21,8 +21,6 @@ J = (1/m) * (-y'*log(sigmoid(X*theta)) - (1-y)'*log(1-sigmoid(X*theta))) + (lamb
 grad = (1/m) * X'*(sigmoid(X*theta) - y) + (lambda/m)*theta
 grad(1) = grad(1) - (lambda/m)*theta(1)
 
-
-
 % =============================================================
 
 end
