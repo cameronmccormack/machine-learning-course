@@ -23,8 +23,8 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
-% === TO CALCULATE OPTIMAL C AND SIGMA UNCOMMENT THE CODE BELOW ===
-% ========= THIS HAS BEEN COMMENTED TO SPEED UP RUNNING ===========
+%% === TO CALCULATE OPTIMAL C AND SIGMA UNCOMMENT THE CODE BELOW ===
+%% ========= THIS HAS BEEN COMMENTED TO SPEED UP RUNNING ===========
 
 %CTests = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
 %sigmaTests = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
@@ -51,9 +51,10 @@ sigma = 0.3;
 %disp(sigma)
 %disp("")
 
-% ============ THESE ARE THE PARAMETERS FOUND BY THE CODE ABOVE ============
-% ================== GIVEN MANUALLY TO SPEED UP RUNNING ====================
-% === COMMENT THIS SECTION AWAY IF YOU WANT TO USE CALCULATED PARAMETERS ===
+%% ============ THESE ARE THE PARAMETERS FOUND BY THE CODE ABOVE ============
+%% ================== GIVEN MANUALLY TO SPEED UP RUNNING ====================
+%% === COMMENT THIS SECTION AWAY IF YOU WANT TO USE CALCULATED PARAMETERS ===
+
 C = 1;
 sigma = 0.1
 
