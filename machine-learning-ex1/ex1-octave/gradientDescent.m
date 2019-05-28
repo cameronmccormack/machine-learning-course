@@ -20,7 +20,6 @@ for iter = 1:num_iters
     err = (X * theta) - y;
     theta = theta - ((alpha/m) * X'*err);
     
-
     % ============================================================
 
     % Save the cost J in every iteration    
