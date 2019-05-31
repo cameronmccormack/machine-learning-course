@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import axes3d
 
 
 def warmUpExercise():
@@ -43,7 +44,7 @@ X = np.array([X]).T
 y = np.array([y]).T
 m = np.size(y)
 plt.plot(X, y, 'ro')
-plt.show()
+plt.show(block=False)
 c = input("Program paused. Press enter to continue")
 
 
@@ -80,7 +81,7 @@ print("-3.6303\n1.1664")
 # plot the linear fit
 plt.plot(X[:,1], y, 'ro')
 plt.plot(X[:,1], X @ theta, color='k', linestyle='-', linewidth=2)
-plt.show()
+plt.show(block=False)
 c = input("Program paused. Press enter to continue")
 
 # predict values for population sizes of 35,000 and 70,000
@@ -105,5 +106,21 @@ J_vals = np.zeros((np.size(theta0_vals), np.size(theta1_vals)))
 for i in range(0, np.size(theta0_vals)-1):
     for j in range(0, np.size(theta1_vals)-1):
         t = np.array([[theta0_vals[i]], [theta1_vals[j]]])
-        J_vals[i,j] = computeCost(X, y, t)
+        J_vals[i, j] = computeCost(X, y, t)
 
+# transpose J_vals to avoid axes bring flipped
+J_vals = J_vals.T
+
+# surface plot J_vals
+theta0_vals, theta1_vals = np.meshgrid(theta0_vals, theta1_vals)
+fig2 = plt.figure()
+ax2 = fig2.gca(projection='3d')
+ax2.plot_surface(theta0_vals, theta1_vals, J_vals)
+plt.show(block=False)
+
+# plot J_vals as 15 contours spaced logarithmically between 0.01 and 100
+fig3 = plt.figure()
+ax3 = fig3.gca()
+ax3.contour(theta0_vals, theta1_vals, J_vals, np.logspace(-2, 3, 20))
+ax3.plot(theta[0], theta[1], 'rx')
+plt.show()
