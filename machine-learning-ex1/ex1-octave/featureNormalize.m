@@ -28,9 +28,9 @@ sigma = zeros(1, size(X, 2));
 
 features = size(X,2);
 for i = 1:features,
-    mn = mean(X(:,i));
-    sdev = std(X(:,i));
-    X_norm(:,i)=(X(:,i)-mn)/sdev;
+    mu(1, i) = mean(X(:,i));
+    sigma(1, i) = std(X(:,i));
+    X_norm(:,i)=(X(:,i)-mu(1, i))/sigma(1, i);
 end
 
 % ============================================================
