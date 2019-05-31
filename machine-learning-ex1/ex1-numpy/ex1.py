@@ -24,9 +24,9 @@ def gradientDescent(X, y, theta, alpha, num_iters):
     return theta
 
 
-## Machine Learning Online Class - Exercise 1: Linear Regression
+# Machine Learning Online Class - Exercise 1: Linear Regression
 
-## Part 1: Basic Function
+# Part 1: Basic Function
 
 # Warm-up Exercise
 print("Running warmUpExercise ...")
@@ -35,7 +35,7 @@ warmUpExercise()
 c = input("Program paused. Press enter to continue.")
 
 
-## Part 2: Plotting
+# Part 2: Plotting
 
 print("Plotting Data ...")
 f = open("data/ex1data1.txt", "r")
@@ -48,7 +48,7 @@ plt.show(block=False)
 c = input("Program paused. Press enter to continue")
 
 
-## Part 3: Cost and Gradient Descent
+# Part 3: Cost and Gradient Descent
 X = np.c_[np.ones(m), X]
 theta = np.zeros((2, 1))
 
@@ -79,20 +79,22 @@ print("Expected theta values (approx):")
 print("-3.6303\n1.1664")
 
 # plot the linear fit
-plt.plot(X[:,1], y, 'ro')
-plt.plot(X[:,1], X @ theta, color='k', linestyle='-', linewidth=2)
+plt.plot(X[:, 1], y, 'ro')
+plt.plot(X[:, 1], X @ theta, color='k', linestyle='-', linewidth=2)
 plt.show(block=False)
 c = input("Program paused. Press enter to continue")
 
 # predict values for population sizes of 35,000 and 70,000
 predict1 = np.array([1, 3.5]) @ theta
 predict2 = np.array([1, 7]) @ theta
-print("For population = 35,000, we predict a profit of {}".format(predict1*10000))
-print("For population = 70,000, we predict a profit of {}".format(predict2*10000))
+print("For population = 35,000, we predict a profit of {}"
+      .format(predict1*10000))
+print("For population = 70,000, we predict a profit of {}"
+      .format(predict2*10000))
 c = input("Program paused. Press enter to continue")
 
 
-## Part 4: Visualizing J(theta_0, theta_1)
+# Part 4: Visualizing J(theta_0, theta_1)
 print("Visualizing J(theta_0, theta_1) ...")
 
 # grid over which we calculate J
