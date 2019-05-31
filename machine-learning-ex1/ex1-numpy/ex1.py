@@ -39,7 +39,6 @@ c = input("Program paused. Press enter to continue.")
 
 print("Plotting Data ...")
 data = np.loadtxt("data/ex1data1.txt", delimiter=",")
-print(data)
 X, y = data[:, :1], data[:, 1:]
 m = np.size(y)
 plt.plot(X, y, 'ro')
