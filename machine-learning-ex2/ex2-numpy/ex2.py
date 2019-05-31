@@ -7,11 +7,13 @@ import matplotlib.pyplot as plt
 def plotData(X, y):
     pos = []
     neg = []
+
     for i in range(0, np.size(y) - 1):
         if y[i, 0] == 1:
             pos.append(i)
         else:
             neg.append(i)
+
     plt.plot(X[pos, 0], X[pos, 1], 'k+', label="Admitted")
     plt.plot(X[neg, 0], X[neg, 1], 'ko', label="Not admitted")
     plt.xlabel("Exam 1 Score")
