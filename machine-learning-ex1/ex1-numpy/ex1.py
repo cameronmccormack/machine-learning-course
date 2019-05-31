@@ -45,7 +45,7 @@ if __name__ == "__main__":
     m = np.size(y)
     plt.plot(X, y, 'ro')
     plt.show(block=False)
-    c = input("Program paused. Press enter to continue")
+    c = input("Program paused. Press enter to continue.")
 
     # Part 3: Cost and Gradient Descent
     X = np.c_[np.ones(m), X]
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     J = computeCost(X, y, np.array([[-1], [2]]))
     print("\nWith theta = [-1; 2], Cost computed = {}".format(J))
     print("Expected cost value (approx) 54.24")
-    c = input("Program paused. Press enter to continue")
+    c = input("Program paused. Press enter to continue.")
 
     # run gradient descent
     print("\nRunning Gradient Descent")
@@ -87,9 +87,9 @@ if __name__ == "__main__":
     predict1 = np.array([1, 3.5]) @ theta
     predict2 = np.array([1, 7]) @ theta
     print("For population = 35,000, we predict a profit of {}"
-          .format(predict1*10000))
+          .format(np.asscalar(predict1)*10000))
     print("For population = 70,000, we predict a profit of {}"
-          .format(predict2*10000))
+          .format(np.asscalar(predict2)*10000))
     c = input("Program paused. Press enter to continue")
 
     # Part 4: Visualizing J(theta_0, theta_1)
