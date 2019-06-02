@@ -28,11 +28,16 @@ def sigmoid(z):
 
 def costFunction(theta, X, y):
     m = np.size(y)
+
+    # optimization functions will unroll theta, reshape here
     n = np.size(theta)
     theta = np.reshape(theta, (n, 1))
+
     J = (1/m) * (-y.T @ np.log(sigmoid(X @ theta))
                  - (1-y).T @ np.log(1 - sigmoid(X @ theta)))
+
     grad = (1/m) * X.T @ (sigmoid(X @ theta) - y)
+
     return np.asscalar(J), grad
 
 
