@@ -53,7 +53,7 @@ def costFunctionReg(theta, X, y, reg_lambda):
 
     J = ((1/m) * (-y.T @ np.log(sigmoid(X @ theta))
          - (1 - y.T) @ np.log(1 - sigmoid(X @ theta)))
-         + (reg_lambda/(2 * m)) * (np.sum(theta**2) - theta[0, 0]))
+         + (reg_lambda/(2 * m)) * (np.sum(theta**2) - theta[0, 0]**2))
 
     grad = np.zeros((np.size(theta), 1))
     grad = (1/m) * X.T @ (sigmoid(X @ theta) - y) + (reg_lambda / m) * theta
