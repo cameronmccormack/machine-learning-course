@@ -23,6 +23,7 @@ def displayData(X, example_width=None):
     # set up plot
     fig, ax_array = plt.subplots(display_rows, display_cols, figsize=(10, 10))
     fig.subplots_adjust(wspace=0.025, hspace=0.025)
+    ax_array = np.atleast_2d(ax_array)
     ax_array = ax_array.ravel()
 
     for i, ax in enumerate(ax_array):
