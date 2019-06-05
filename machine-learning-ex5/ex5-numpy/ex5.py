@@ -43,6 +43,24 @@ def learningCurve(X, y, Xval, yval, lambda_reg):
     return error_train, error_val
 
 
+def polyFeatures(X, p):
+    X_poly = np.zeros((np.size(X), p))
+    for i in range(0, p):
+        X_poly[:, i] = np.reshape(X**(i+1), np.size(X))
+    return X_poly
+
+
+def featureNormalize(X):
+    m = np.size(X, 0)
+    n = np.size(X, 1)
+    X_norm = np.zeros((m, n))
+    for i in range(0, n):
+        mu = np.mean(X[:, i])
+        sigma = np.std(X[:, i])
+        X_norm[:, i] = (X[:, i] - mu) / sigma
+    return X_norm, mu, sigma
+
+
 if __name__ == "__main__":
 
     # part 1: loading and visualizing data
@@ -87,7 +105,7 @@ if __name__ == "__main__":
 
     # train linear regression with lambda_reg = 0
     lambda_reg = 0
-    theta = trainLinearReg(X_temp, y, lambda_reg)
+    theta = np.atleast_2d(trainLinearReg(X_temp, y, lambda_reg)).T
     plt.plot(X, y, 'rx')
     plt.xlabel("Change in water level (x)")
     plt.ylabel("Water flowing out of the dam (y)")
@@ -104,7 +122,8 @@ if __name__ == "__main__":
 
     # plot learning curve
     lambda_reg = 0
-    error_train, error_val = learningCurve(X_temp, y, Xval_temp, yval, lambda_reg)
+    error_train, error_val = learningCurve(X_temp, y, Xval_temp, yval,
+                                           lambda_reg)
     plt.figure(2)
     plt.plot(range(1, m+1), error_train, label="Train")
     plt.plot(range(1, m+1), error_val, label="Cross Validation")
@@ -116,3 +135,60 @@ if __name__ == "__main__":
     c = input("\nProgram paused. Press enter to continue.")
 
     # part 6: feature mapping for polynomial regression
+
+    # number of features
+    p = 8
+
+    # map X onto polynomial features and normalize
+    X_poly = polyFeatures(X, p)
+    X_poly, mu, sigma = featureNormalize(X_poly)
+    X_poly = np.c_[np.ones((m, 1)), X_poly]
+
+    # map X_poly_test and normalize
+    Xtest = file_data["Xtest"]
+    X_poly_test = polyFeatures(Xtest, p)
+    X_poly_test = featureNormalize(X_poly_test)[0]
+    X_poly_test = np.c_[np.ones((np.size(X_poly_test, 0), 1)), X_poly_test]
+
+    # map X_poly_val and normalize
+    X_poly_val = polyFeatures(Xval, p)
+    X_poly_val = featureNormalize(X_poly_val)[0]
+    X_poly_val = np.c_[np.ones((np.size(X_poly_val, 0), 1)), X_poly_val]
+    print("\nNormalized training example 1:")
+    print(X_poly[0, :])
+    c = input("\nProgram paused. Press enter to continue.")
+
+    # part 7: learning curve for polynomial regression
+
+    # train with lambda = 0.5
+    lambda_reg = 0.5
+    theta = np.atleast_2d(trainLinearReg(X_poly, y, lambda_reg)).T
+
+    # plot training data
+    plt.figure(3)
+    plt.plot(X, y, 'r+')
+    plt.xlabel("Change in water level (x)")
+    plt.ylabel("Water flowing out of the dam (y)")
+    plt.title("Polynomial regression fit (lambda = {})".format(lambda_reg))
+
+    # plot poly fit
+    plot_X = np.atleast_2d(np.linspace(np.min(X), np.max(X), 100)).T
+    plot_X_poly = polyFeatures(plot_X, p)
+    plot_X_poly = featureNormalize(plot_X_poly)[0]
+    plot_X_poly = np.c_[np.ones((np.size(plot_X_poly, 0), 1)), plot_X_poly]
+    plt.plot(plot_X, plot_X_poly @ theta, '--')
+    plt.show(block=False)
+
+    # plot learning curve
+    plt.figure(4)
+    error_train, error_val = learningCurve(X_poly, y, X_poly_val, yval,
+                                           lambda_reg)
+    plt.plot(range(1, m+1), error_train, label="Train")
+    plt.plot(range(1, m+1), error_val, label="Cross Validation")
+    plt.title("Learning curve for polynomial linear regression (lambda = {})"
+              .format(lambda_reg))
+    plt.legend()
+    plt.xlabel("Number of training examples")
+    plt.ylabel("Error")
+    plt.show(block=False)
+    c = input("\nProgram paused. Press enter to continue.")
