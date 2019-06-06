@@ -61,6 +61,22 @@ def featureNormalize(X):
     return X_norm, mu, sigma
 
 
+def validationCurve(X, y, Xval, yval):
+    # test these values of lambda
+    lambda_vec = np.array([0, 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1, 3, 10])
+
+    # initialize errors
+    error_train = np.zeros((np.size(lambda_vec), 1))
+    error_val = np.zeros((np.size(lambda_vec), 1))
+
+    for i, lambda_reg in enumerate(lambda_vec):
+        print(lambda_reg)
+        theta = trainLinearReg(X, y, lambda_reg)
+        error_train[i, 0] = linearRegCostFunction(theta, X, y, 0)[0]
+        error_val[i, 0] = linearRegCostFunction(theta, Xval, yval, 0)[0]
+    return lambda_vec, error_train, error_val
+
+
 if __name__ == "__main__":
 
     # part 1: loading and visualizing data
@@ -192,3 +208,15 @@ if __name__ == "__main__":
     plt.ylabel("Error")
     plt.show(block=False)
     c = input("\nProgram paused. Press enter to continue.")
+
+    # part 8: validation for selecting lambda
+    lambda_vec, error_train, error_val = validationCurve(X_poly, y, X_poly_val,
+                                                         yval)
+    plt.figure(5)
+    plt.plot(lambda_vec, error_train, label="Train")
+    plt.plot(lambda_vec, error_val, label="Cross Validation")
+    plt.legend()
+    plt.xlabel("Lambda")
+    plt.ylabel("Error")
+    plt.show(block=False)
+    c = input("Program complete. Press enter to exit.")
