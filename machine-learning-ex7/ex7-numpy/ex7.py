@@ -1,6 +1,5 @@
 import numpy as np
 import scipy.io as sio
-import scipy.optimize as opt
 import imageio
 import matplotlib
 matplotlib.use('TkAgg')
@@ -43,7 +42,6 @@ def computeCentroids(X, idx, K):
 def runkMeans(X, initial_centroids, max_iters, plot_progress=False):
     # initialize values
     m = np.size(X, 0)
-    n = np.size(X, 1)
     K = np.size(initial_centroids, 0)
     centroids = initial_centroids
     idx = np.zeros((m, 1))
@@ -51,7 +49,7 @@ def runkMeans(X, initial_centroids, max_iters, plot_progress=False):
 
     # run k means
     for i in range(0, max_iters):
-        print("\nK-Means iteration {}/{} ...".format(i, max_iters))
+        print("\nK-Means iteration {}/{} ...".format(i+1, max_iters))
 
         # for each example, assign it to the closest centroid
         idx = findClosestCentroids(X, centroids)
@@ -84,6 +82,12 @@ def plotProgresskMeans(X, centroids, previous, idx, K, i):
 def plotDataPoints(X, idx, K):
     plt.plot(X[:, 0], X[:, 1], 'bx')
     plt.show(block=False)
+
+
+def kMeansInitCentroids(X, K):
+    random_idx = np.random.permutation(np.size(X, 0))
+    centroids = X[random_idx[:K], :]
+    return centroids
 
 
 if __name__ == "__main__":
@@ -120,6 +124,7 @@ if __name__ == "__main__":
 
     # for consistency, use specific initial centroids from before rather than
     # random
+    plt.figure(1)
     centroids, idx = runkMeans(X, initial_centroids, max_iters, True)
     print("\nK-Means Done.")
     c = input("\nProgram paused. Press enter to continue.")
@@ -131,3 +136,27 @@ if __name__ == "__main__":
     A = imageio.imread("data/ski_pic.png")
     A = A/255
     X = np.reshape(A, (np.size(A, 0)*np.size(A, 1), 3))
+
+    # run K-means on this data
+    K = 30
+    max_iters = 10
+    initial_centroids = kMeansInitCentroids(X, K)
+    centroids, idx = runkMeans(X, initial_centroids, max_iters)
+    c = input("\nProgram paused. Press enter to continue.")
+
+    # part 5: image compression
+
+    print("\nApplying K-Means to compress an image.")
+
+    # find closest cluster members
+    idx = findClosestCentroids(X, centroids).astype(int)
+    X_recovered = centroids[idx, :]
+    X_recovered = np.reshape(X_recovered, (np.size(A, 0), np.size(A, 1), 3))
+
+    # display original and compressed image
+    plt.figure(2)
+    plt.imshow(A)
+    plt.figure(3)
+    plt.imshow(X_recovered)
+    plt.show(block=False)
+    c = input("\nProgram complete. Press enter to exit.")
