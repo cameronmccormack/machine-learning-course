@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.io as sio
 import imageio
+import ex7
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -149,3 +150,17 @@ if __name__ == "__main__":
     X_rec = recoverData(Z, U, K)
     displayData(X_rec[:100, :])
     c = input("\nProgram paused. Press enter to continue.")
+
+    # part 8: PCA for visualization
+
+    # load bird image
+    A = imageio.imread("data/bird_small.png")
+    A = A/255
+    X = np.reshape(A, (np.size(A, 0)*np.size(A, 1), 3))
+    K = 16
+    max_iters = 10
+    initial_centroids = ex7.kMeansInitCentroids(X, K)
+    centroids, idx = ex7.runkMeans(X, initial_centroids, max_iters)
+
+    # sample 1000 random indexes (working with all the data is expensive)
+    sel = np.floor(np.random.rand(1000, 1) * np.size(X, 0))
