@@ -73,7 +73,9 @@ if __name__ == "__main__":
         displayData(X_one)
 
         # predict number
-        pred = predict(Theta1, Theta2, X_one)
+        pred = np.asscalar(predict(Theta1, Theta2, X_one))
+        if pred == 10:
+            pred = 0
         print("Neural network prediction: {}".format(pred))
 
         # pause with quit option
