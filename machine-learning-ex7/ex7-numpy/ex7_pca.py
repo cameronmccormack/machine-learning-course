@@ -164,3 +164,5 @@ if __name__ == "__main__":
 
     # sample 1000 random indexes (working with all the data is expensive)
     sel = np.floor(np.random.rand(1000, 1) * np.size(X, 0))
+
+    # need to finish this with 3d, 2d plot and plot colours
