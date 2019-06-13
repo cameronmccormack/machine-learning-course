@@ -16,9 +16,20 @@ def multivariateGaussian(X, mu, Sigma2):
     k = np.size(mu)
     Sigma2 = np.diag(Sigma2)
     X = X - mu.T
-    p = (((2*np.pi)**(-k/2)) * (np.det(Sigma2)**-0.5)
-         * np.exp(-0.5 * np.sum((X @ np.pinv(Sigma2)) * X, axis=1)))
+    p = (((2*np.pi)**(-k/2)) * (np.linalg.det(Sigma2)**-0.5)
+         * np.exp(-0.5 * np.sum((X @ np.linalg.pinv(Sigma2)) * X, axis=1)))
     return p
+
+
+def visualizeFit(X, mu, sigma2):
+    X1, X2 = np.meshgrid(np.linspace(0, 35, 70), np.linspace(0, 35, 70))
+    Z = multivariateGaussian([X1[:], X2[:]], mu, sigma2)
+    Z = np.reshape(Z, np.size(X1, 0), np.size(X1, 1))
+    if np.sum(np.isinf(Z)) == 0:
+        fig = plt.figure()
+        ax = fig.gca()
+        ax.contour(X1, X2, Z, 10, np.logspace(-20, 0, 20))
+        plt.show(block=False)
 
 
 if __name__ == "__main__":
@@ -28,7 +39,7 @@ if __name__ == "__main__":
     print("Vizualizing example dataset for outlier detection.")
     file_data = sio.loadmat("data/ex8data1.mat")
     X = file_data["X"]
-    plt.figure(1)
+    plt.figure()
     plt.plot(X[:, 0], X[:, 1], 'bx')
     plt.xlabel("Latency (ms)")
     plt.ylabel("Throughput (mb/s)")
@@ -42,5 +53,5 @@ if __name__ == "__main__":
 
     # density of the multivariate normal at each data point of X and visualize
     p = multivariateGaussian(X, mu, sigma2)
-    #visualizeFit(X, mu, sigma2, 2)
+    visualizeFit(X, mu, sigma2)
     c = input("\nProgram paused. Press enter to continue.")
