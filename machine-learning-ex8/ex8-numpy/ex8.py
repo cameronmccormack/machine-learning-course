@@ -21,14 +21,15 @@ def multivariateGaussian(X, mu, Sigma2):
     return p
 
 
-def visualizeFit(X, mu, sigma2):
+def visualizeFit(X, mu, sigma2, fig):
     X1, X2 = np.meshgrid(np.linspace(0, 35, 70), np.linspace(0, 35, 70))
-    Z = multivariateGaussian([X1[:], X2[:]], mu, sigma2)
-    Z = np.reshape(Z, np.size(X1, 0), np.size(X1, 1))
+    Z = multivariateGaussian(np.c_[np.reshape(X1, (70**2, 1)),
+                                   np.reshape(X2, (70**2, 1))],
+                             mu, sigma2)
+    Z = np.reshape(Z, (np.size(X1, 0), np.size(X1, 1)))
     if np.sum(np.isinf(Z)) == 0:
-        fig = plt.figure()
         ax = fig.gca()
-        ax.contour(X1, X2, Z, 10, np.logspace(-20, 0, 20))
+        ax.contour(X1, X2, Z, np.logspace(-20, 0, 20))
         plt.show(block=False)
 
 
@@ -39,7 +40,7 @@ if __name__ == "__main__":
     print("Vizualizing example dataset for outlier detection.")
     file_data = sio.loadmat("data/ex8data1.mat")
     X = file_data["X"]
-    plt.figure()
+    fig1 = plt.figure()
     plt.plot(X[:, 0], X[:, 1], 'bx')
     plt.xlabel("Latency (ms)")
     plt.ylabel("Throughput (mb/s)")
@@ -53,5 +54,5 @@ if __name__ == "__main__":
 
     # density of the multivariate normal at each data point of X and visualize
     p = multivariateGaussian(X, mu, sigma2)
-    visualizeFit(X, mu, sigma2)
+    visualizeFit(X, mu, sigma2, fig1)
     c = input("\nProgram paused. Press enter to continue.")
