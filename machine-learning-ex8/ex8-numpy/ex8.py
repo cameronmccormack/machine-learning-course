@@ -33,6 +33,29 @@ def visualizeFit(X, mu, sigma2, fig):
         plt.show(block=False)
 
 
+def selectThreshold(yval, pval):
+    # unroll to common shape
+    yval = np.reshape(yval, np.size(yval))
+    pval = np.reshape(pval, np.size(pval))
+    print(yval)
+    print(pval)
+    steps = np.linspace(np.min(pval), np.max(pval), 1000)
+    bestF1 = 0
+    for epsilon in steps:
+        tp = np.sum(pval[yval == 1] < epsilon)
+        fp = np.sum(pval[yval == 0] < epsilon)
+        fn = np.sum(pval[yval == 1] >= epsilon)
+
+        prec = tp/(tp+fp) if (tp+fp) > 0 else 0
+        rec = tp/(tp+fn) if (tp+fn) > 0 else 0
+
+        F1 = 2 * prec * rec / (prec + rec) if (prec + rec) > 0 else 0
+        if F1 > bestF1:
+            bestF1 = F1
+            bestEpsilon = epsilon
+    return bestEpsilon, bestF1
+
+
 if __name__ == "__main__":
     # part 1: load example dataset
 
@@ -56,3 +79,46 @@ if __name__ == "__main__":
     p = multivariateGaussian(X, mu, sigma2)
     visualizeFit(X, mu, sigma2, fig1)
     c = input("\nProgram paused. Press enter to continue.")
+
+    # part 3: find outliers
+
+    # find a good epsilon threshold using a cross validation set
+    Xval = file_data["Xval"]
+    yval = file_data["yval"]
+    pval = multivariateGaussian(Xval, mu, sigma2)
+    epsilon, F1 = selectThreshold(yval, pval)
+    print("\nBest epsilon found using cross-validation: {}".format(epsilon))
+    print("This should be about 8.99e-5")
+    print("\nBest F1 on cross-validation set: {}".format(F1))
+    print("This should be about 0.875000")
+
+    # find the outliers in the training set and plot them
+    plt.plot(X[(p < epsilon), 0], X[(p < epsilon), 1], 'ro', MarkerSize=10)
+    plt.show(block=False)
+    c = input("\nProgram paused. Press enter to continue.")
+
+    # part 4: multidimensional outliers
+
+    # load data
+    file_data = sio.loadmat("data/ex8data2.mat")
+    X = file_data["X"]
+    Xval = file_data["Xval"]
+    yval = file_data["yval"]
+
+    # apply the same steps to the larger dataset
+    mu, sigma2 = estimateGaussian(X)
+
+    # training set
+    p = multivariateGaussian(X, mu, sigma2)
+
+    # cross-validation set
+    pval = multivariateGaussian(Xval, mu, sigma2)
+
+    # find the best threshold
+    epsilon, F1 = selectThreshold(yval, pval)
+    print("\nBest epsilon found using cross-validation: {}".format(epsilon))
+    print("This should be about 1.38e-18")
+    print("\nBest F1 on cross-validation set: {}".format(F1))
+    print("This should be about 0.615385")
+    print("# outliers found: {}".format(np.sum(p < epsilon)))
+    c = input("\nProgram complete. Press enter to exit.")
