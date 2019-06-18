@@ -37,8 +37,6 @@ def selectThreshold(yval, pval):
     # unroll to common shape
     yval = np.reshape(yval, np.size(yval))
     pval = np.reshape(pval, np.size(pval))
-    print(yval)
-    print(pval)
     steps = np.linspace(np.min(pval), np.max(pval), 1000)
     bestF1 = 0
     for epsilon in steps:
