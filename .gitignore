@@ -1,3 +1,12 @@
-machine-learning-ex1/ex1-numpy/__pycache__
-machine-learning-ex2/ex2-numpy/__pycache__
-machine-learning-ex3/ex3-numpy/__pycache__
+.gitignore
+
+machine-learning-ex1/ex1-numpy
+machine-learning-ex2/ex2-numpy
+machine-learning-ex3/ex3-numpy
+machine-learning-ex4/ex4-numpy
+machine-learning-ex5/ex5-numpy
+machine-learning-ex6/ex6-numpy
+machine-learning-ex7/ex7-numpy
+machine-learning-ex8/ex8-numpy
+
+
